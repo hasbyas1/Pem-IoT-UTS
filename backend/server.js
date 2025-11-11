@@ -125,20 +125,21 @@ app.get('/api/sensor/database', async (req, res) => {
       LIMIT 2
     `);
 
-    // Query untuk mendapatkan data per bulan-tahun
+    // Query untuk mendapatkan data per bulan-tahun (DIPERBAIKI LAGI)
     const [monthYear] = await db.query(`
-      SELECT CONCAT(MONTH(timestamp), '-', YEAR(timestamp)) as month_year
+      SELECT 
+        CONCAT(MONTH(MAX(timestamp)), '-', YEAR(MAX(timestamp))) as month_year
       FROM data_sensor
       GROUP BY YEAR(timestamp), MONTH(timestamp)
-      ORDER BY timestamp DESC
+      ORDER BY YEAR(timestamp) DESC, MONTH(timestamp) DESC
       LIMIT 2
     `);
 
     // Format response sesuai contoh di soal
     const response = {
-      suhumax: stats[0].suhumax,
-      suhumin: stats[0].suhumin,
-      suhurata: parseFloat(stats[0].suhurata.toFixed(2)),
+      suhumax: stats[0].suhumax || 0,
+      suhumin: stats[0].suhumin || 0,
+      suhurata: stats[0].suhurata ? parseFloat(stats[0].suhurata.toFixed(2)) : 0,
       nilai_suhu_max_humid_max: maxData,
       month_year_max: monthYear
     };
