@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DataTable from './DataTable'; // ✅ TAMBAHKAN INI
+import DataTable from './DataTable';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -80,7 +80,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>🌱 Sistem Monitoring Hidroponik IoT</h1>
+        <h1>Sistem Monitoring Hidroponik IoT</h1>
         <p className="subtitle">Real-time Monitoring & Control</p>
       </header>
 
@@ -89,7 +89,7 @@ const Dashboard = () => {
       <div className="cards-container">
         {/* Card Suhu */}
         <div className="card">
-          <div className="card-icon">🌡️</div>
+          <div className="card-icon">SUHU</div>
           <div className="card-content">
             <h3>Suhu</h3>
             <div className="card-value">{sensorData.suhu.toFixed(2)}°C</div>
@@ -98,7 +98,7 @@ const Dashboard = () => {
 
         {/* Card Kelembapan */}
         <div className="card">
-          <div className="card-icon">💧</div>
+          <div className="card-icon">HUMID</div>
           <div className="card-content">
             <h3>Kelembapan</h3>
             <div className="card-value">{sensorData.humidity.toFixed(2)}%</div>
@@ -107,7 +107,7 @@ const Dashboard = () => {
 
         {/* Card Status */}
         <div className="card status-card" style={{ borderColor: getStatusColor() }}>
-          <div className="card-icon">📊</div>
+          <div className="card-icon">STATUS</div>
           <div className="card-content">
             <h3>Status Sistem</h3>
             <div className="status-text" style={{ color: getStatusColor() }}>
@@ -119,7 +119,7 @@ const Dashboard = () => {
 
       {/* Kontrol Pompa */}
       <div className="control-panel">
-        <h2>🚰 Kontrol Pompa</h2>
+        <h2>Kontrol Pompa</h2>
         <div className="relay-status">
           Status Pompa: 
           <span className={`status-badge ${sensorData.relayStatus === 'ON' ? 'status-on' : 'status-off'}`}>
@@ -132,24 +132,23 @@ const Dashboard = () => {
             onClick={() => controlRelay('ON')}
             disabled={sensorData.relayStatus === 'ON'}
           >
-            ▶️ Hidupkan Pompa
+            Hidupkan Pompa
           </button>
           <button 
             className="btn btn-off"
             onClick={() => controlRelay('OFF')}
             disabled={sensorData.relayStatus === 'OFF'}
           >
-            ⏸️ Matikan Pompa
+            Matikan Pompa
           </button>
         </div>
       </div>
 
-      {/* ✅ TAMBAHKAN DATA TABLE */}
       <DataTable />
 
       {/* Footer */}
       <footer className="dashboard-footer">
-        <p>📡 Last Update: {formatTime(sensorData.lastUpdate)}</p>
+        <p>Last Update: {formatTime(sensorData.lastUpdate)}</p>
         <p className="info-text">Data diperbarui setiap 2 detik secara otomatis</p>
       </footer>
     </div>
