@@ -1,0 +1,8 @@
+1. Open the Folder program in Vscode
+2. Run Arduino Program
+ - Either Esp32Hidroponik-Fisik.ino physically or Esp32Hidroponik-Wokwi.ino simulation
+ - Don't forget to change Wi-Fi and broker configs
+ - Don't forget also to match/change the Pin of every component (check diagram-Wokwi.png if you want to run the simulation)
+3. Run these in terminal (in order):
+ - Pem-IoT-UTS\backend>npm run dev
+ - Pem-IoT-UTS\frontend>npm start
