@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DataTable from './DataTable'; // ✅ TAMBAHKAN INI
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -39,7 +40,6 @@ const Dashboard = () => {
       
       if (response.data.success) {
         console.log(`Relay ${command} berhasil`);
-        // Langsung update data setelah kontrol
         fetchData();
       }
     } catch (err) {
@@ -50,9 +50,9 @@ const Dashboard = () => {
 
   // Auto-refresh setiap 2 detik
   useEffect(() => {
-    fetchData(); // Fetch pertama kali
+    fetchData();
     const interval = setInterval(fetchData, 2000);
-    return () => clearInterval(interval); // Cleanup
+    return () => clearInterval(interval);
   }, []);
 
   // Get status color
@@ -143,6 +143,9 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
+      {/* ✅ TAMBAHKAN DATA TABLE */}
+      <DataTable />
 
       {/* Footer */}
       <footer className="dashboard-footer">

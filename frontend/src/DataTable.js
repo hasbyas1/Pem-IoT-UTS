@@ -69,13 +69,13 @@ const DataTable = () => {
           className={`tab ${activeTab === 'realtime' ? 'active' : ''}`}
           onClick={() => setActiveTab('realtime')}
         >
-        Data Real-time
+          Data Real-time
         </button>
         <button 
           className={`tab ${activeTab === 'stats' ? 'active' : ''}`}
           onClick={() => setActiveTab('stats')}
         >
-        Statistik & JSON
+          Statistik & JSON
         </button>
       </div>
 
