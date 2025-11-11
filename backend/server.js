@@ -118,22 +118,40 @@ app.get('/api/sensor/database', async (req, res) => {
 
     // Query untuk mendapatkan data dengan suhu dan humidity tertinggi
     const [maxData] = await db.query(`
-      SELECT id as idx, suhu as suhun, humidity as humid, lux as kecerahan, timestamp
+      SELECT 
+        id as idx, 
+        suhu as suhun, 
+        humidity as humid, 
+        lux as kecerahan, 
+        DATE_FORMAT(timestamp, '%Y-%m-%d %H:%i:%s') as timestamp
       FROM data_sensor
-      WHERE suhu = (SELECT MAX(suhu) FROM data_sensor)
-      ORDER BY timestamp DESC
+      ORDER BY suhu DESC, humidity DESC
       LIMIT 2
     `);
 
-    // Query untuk mendapatkan data per bulan-tahun (DIPERBAIKI LAGI)
-    const [monthYear] = await db.query(`
-      SELECT 
-        CONCAT(MONTH(MAX(timestamp)), '-', YEAR(MAX(timestamp))) as month_year
+    // Query PALING SEDERHANA untuk month_year
+    const [allTimestamps] = await db.query(`
+      SELECT timestamp
       FROM data_sensor
-      GROUP BY YEAR(timestamp), MONTH(timestamp)
-      ORDER BY YEAR(timestamp) DESC, MONTH(timestamp) DESC
-      LIMIT 2
+      ORDER BY timestamp DESC
+      LIMIT 100
     `);
+
+    // Proses di JavaScript untuk mendapatkan unique month-year
+    const monthYearSet = new Set();
+    const monthYearArray = [];
+    
+    for (const row of allTimestamps) {
+      const date = new Date(row.timestamp);
+      const monthYear = `${date.getMonth() + 1}-${date.getFullYear()}`;
+      
+      if (!monthYearSet.has(monthYear)) {
+        monthYearSet.add(monthYear);
+        monthYearArray.push({ month_year: monthYear });
+        
+        if (monthYearArray.length >= 2) break;
+      }
+    }
 
     // Format response sesuai contoh di soal
     const response = {
@@ -141,7 +159,7 @@ app.get('/api/sensor/database', async (req, res) => {
       suhumin: stats[0].suhumin || 0,
       suhurata: stats[0].suhurata ? parseFloat(stats[0].suhurata.toFixed(2)) : 0,
       nilai_suhu_max_humid_max: maxData,
-      month_year_max: monthYear
+      month_year_max: monthYearArray
     };
 
     res.json(response);

@@ -8,10 +8,3 @@ CREATE TABLE IF NOT EXISTS data_sensor (
   lux INT DEFAULT 0,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT INTO data_sensor (suhu, humidity, lux) VALUES 
-(28.5, 65.2, 0),
-(30.2, 70.5, 0),
-(32.1, 68.3, 0),
-(35.5, 72.1, 0),
-(29.8, 66.7, 0);
